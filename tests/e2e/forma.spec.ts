@@ -87,7 +87,7 @@ test("portfolio filters and individual project gallery", async ({ page }) => {
     page.getByRole("button", { name: "Интерьеры", exact: true }),
   ).toHaveAttribute("aria-pressed", "true");
   await page
-    .getByRole("link", { name: "SILENCE — Апартаменты", exact: true })
+    .getByRole("link", { name: /SILENCE Апартаменты Санкт-Петербург/ })
     .click();
   await expect(page).toHaveURL(/\/projects\/silence/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("SILENCE");

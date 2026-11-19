@@ -4,7 +4,7 @@
 
 ## Запуск
 
-Node.js 22+ и npm.
+Node.js 22 и npm. [Опубликованный сайт](https://forma-studio-orpin.vercel.app).
 
 ```sh
 npm ci

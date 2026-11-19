@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { useId, useRef, useState } from "react";
-import { inquirySchema } from "@/lib/inquiry";
 import { Arrow } from "./ui";
 type Errors = Partial<Record<string, string>>;
 export function ContactForm({
@@ -29,22 +28,23 @@ export function ContactForm({
       consent: data.get("consent") === "on",
       company: String(data.get("company") || ""),
     };
-    const parsed = inquirySchema.safeParse(payload);
-    if (!parsed.success) {
-      const next: Errors = {};
-      parsed.error.issues.forEach((i) => {
-        const key = String(i.path[0]);
-        next[key] ??= i.message;
-      });
-      setErrors(next);
-      setStatus("idle");
-      const first = formRef.current?.elements.namedItem(Object.keys(next)[0]);
-      if (first instanceof HTMLElement) first.focus();
-      return;
-    }
-    setErrors({});
     setStatus("loading");
     try {
+      const { inquirySchema } = await import("@/lib/inquiry");
+      const parsed = inquirySchema.safeParse(payload);
+      if (!parsed.success) {
+        const next: Errors = {};
+        parsed.error.issues.forEach((i) => {
+          const key = String(i.path[0]);
+          next[key] ??= i.message;
+        });
+        setErrors(next);
+        setStatus("idle");
+        const first = formRef.current?.elements.namedItem(Object.keys(next)[0]);
+        if (first instanceof HTMLElement) first.focus();
+        return;
+      }
+      setErrors({});
       const response = await fetch("/api/inquiries", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

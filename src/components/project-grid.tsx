@@ -18,7 +18,7 @@ export function ProjectCard({
       <Link
         href={`/projects/${project.slug}`}
         className="project-card-link"
-        aria-label={`${project.name} — ${project.type}`}
+        aria-labelledby={`project-${project.slug}-name project-${project.slug}-meta`}
       >
         <Picture
           src={project.image}
@@ -27,10 +27,10 @@ export function ProjectCard({
           sizes="(max-width: 767px) calc(100vw - 48px), (max-width: 1023px) calc(50vw - 40px), calc(50vw - 84px)"
         />
         <div className="project-card-title">
-          <h3>{project.name}</h3>
+          <h3 id={`project-${project.slug}-name`}>{project.name}</h3>
           <Arrow />
         </div>
-        <p className="project-meta">
+        <p className="project-meta" id={`project-${project.slug}-meta`}>
           {project.type} <span aria-hidden="true">/</span> {project.location} ·{" "}
           {project.year}
         </p>
